@@ -1,113 +1,41 @@
 import React, { useState } from 'react';
+import './App.css';
 
-const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-    phone: '',
-  });
+function App() {
+  const Rjokes = [
 
-  const [errors, setErrors] = useState({});
-  const [submittedData, setSubmittedData] = useState(null);
+    "How do robots eat pizza? :- One byte at a time.",
+    "What does the R in Recursion stand for? :- Recursion",
+    "How did the first program die? :- It was executed.",
+    "Why do Java programmers wear glasses? :- They can’t C#.",
+    "Three SQL Database Admins walked into a NoSQL bar. A little while later they walked out because they couldn’t find a table.",
+    "There are 10 types of people in this world. Those who understand binary and those who don’t.",
+    "There are two ways to write error-free programs; only the third one works.",
+    "A good programmer is someone who always looks both ways before crossing a one-way street.",
+    "Why do programmers prefer dark mode? :- Because light attracts bugs!",
+    "What’s the first step in understanding recursion? :- To understand recursion, you must first understand recursion."
+  ];
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  const [currentJoke, setCurrentJoke] = useState('');
+
+  const getJoke = () => {
+    const randomjoke = Math.floor(Math.random() * Rjokes.length);
+    setCurrentJoke(Rjokes[randomjoke]);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const newErrors = {};
-    if (!formData.name) newErrors.name = "Name is required.";
-    if (!formData.email) newErrors.email = "Email is required.";
-    if (!formData.message) newErrors.message = "Message is required.";
-    if (!formData.phone) newErrors.phone = "Phone number is required.";
-
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      setSubmittedData(formData);
-      setFormData({ name: '', email: '', message: '', phone: '' }); // Clear the form
-    }
-  };
+  const copyjoke = () =>{
+    navigator.clipboard.writeText(currentJoke);
+    alert("Joke copied");
+  }
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h2>Contact Form</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "10px" }}>
-          <label>
-            Name:
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              style={{ display: "block", marginTop: "5px", width: "100%" }}
-            />
-          </label>
-          {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
-        </div>
-
-        <div style={{ marginBottom: "10px" }}>
-          <label>
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              style={{ display: "block", marginTop: "5px", width: "100%" }}
-            />
-          </label>
-          {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
-        </div>
-
-        <div style={{ marginBottom: "10px" }}>
-          <label>
-            Phone Number:
-            <input
-              type="number"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              style={{ display: "block", marginTop: "5px", width: "100%" }}
-            />
-          </label>
-          {errors.phone && <p style={{ color: "red" }}>{errors.phone}</p>}
-        </div>
-
-        <div style={{ marginBottom: "10px" }}>
-          <label>
-            Message:
-            <textarea
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              style={{ display: "block", marginTop: "5px", width: "100%", height: "80px" }}
-            />
-          </label>
-          {errors.message && <p style={{ color: "red" }}>{errors.message}</p>}
-        </div>
-
-        <button type="submit" style={{ padding: "10px 20px" }}>
-          Submit
-        </button>
-      </form>
-
-      {submittedData && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Submitted Data</h3>
-          <p><strong>Name:</strong> {submittedData.name}</p>
-          <p><strong>Email:</strong> {submittedData.email}</p>
-          <p><strong>Phone:</strong> {submittedData.phone}</p>
-          <p><strong>Message:</strong> {submittedData.message}</p>
-        </div>
-      )}
+    <div className="App">
+      <h1>Wanna hear a joke?</h1>
+      <button onClick={getJoke}>Click to get a joke</button>
+      <p>{currentJoke}</p> 
+      <button onClick={copyjoke} >Copy joke</button>
     </div>
   );
-};
+}
 
-export default ContactForm;
+export default App;
